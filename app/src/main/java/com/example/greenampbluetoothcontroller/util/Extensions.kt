@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.greenampbluetoothcontroller.R
@@ -52,6 +53,11 @@ fun String?.validateString() = if (isNullOrEmpty()) "" else trim()
 fun Fragment.makeToast(message: String?) {
     Toast.makeText(requireContext(), message ?: "Something went wrong!", Toast.LENGTH_LONG).show()
 }
+
+fun AppCompatActivity.makeToast(message: String?, toastLength : Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(this, message ?: "Something went wrong!", toastLength).show()
+}
+
 
 fun AutoCompleteTextView.loadAdapter(list: List<*>?) {
     setAdapter(

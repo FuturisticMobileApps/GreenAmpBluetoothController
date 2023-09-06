@@ -108,6 +108,7 @@ class BaseContainer : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
 
             if (permissions.values.contains(true)) {
+                bluetoothAdapter.enable()
                 checkBluetoothEnabled()
                 return@registerForActivityResult
             }
