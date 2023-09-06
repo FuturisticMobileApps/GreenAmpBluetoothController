@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        style="@style/Title"
+        android:layout_gravity="center_horizontal"
+        android:text="Device Details" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:text="Not connected"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        style="@style/FieldStyle"
+        android:layout_marginTop="30dp"
+        android:text="byte array:"/>
+
+    <TextView
+        android:id="@+id/byteArray"
+        style="@style/ValueStyle"
+        android:layout_marginTop="6dp" />
+
+    <TextView
+        style="@style/FieldStyle"
+        android:layout_marginTop="30dp"
+        android:text="String:"/>
+
+    <TextView
+        android:id="@+id/string"
+        style="@style/ValueStyle"
+        android:layout_marginTop="6dp" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilCharacteristics"
+        style="@style/TextInputLayoutStyle.Spinner">
+
+        <AutoCompleteTextView
+            android:id="@+id/acsCharacteristics"
+            style="@style/AutoCompleteTextViewStyle"
+            android:hint="Characteristics" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnConnect"
+        android:layout_width="wrap_content"
+        android:text="Connect"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/green_background"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnForceConnect"
+        android:layout_width="wrap_content"
+        android:text="Force Connect"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/green_background"
+        android:layout_height="wrap_content"/>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
