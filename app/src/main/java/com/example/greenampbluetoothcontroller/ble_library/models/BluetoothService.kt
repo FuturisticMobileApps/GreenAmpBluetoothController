@@ -1,7 +1,6 @@
 package com.example.greenampbluetoothcontroller.ble_library.models
 
 import android.bluetooth.BluetoothGattService
-import quevedo.soares.leandro.blemadeeasy.models.BluetoothCharacteristic
 
 data class BluetoothService(
 	private val service: BluetoothGattService,

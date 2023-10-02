@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">GreenAmpBluetoothController</string>
-    <string name="no_bluetooth_message">It seems like your device lacks Bluetooth capability. This app cannot be supported on your device</string>
+    <string name="app_name">GreenAmp</string>
+    <string name="battery_safety_monitoring"><![CDATA[Battery safety & monitoring]]></string>
 </resources>

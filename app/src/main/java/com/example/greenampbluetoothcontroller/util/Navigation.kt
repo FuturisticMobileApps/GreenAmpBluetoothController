@@ -7,14 +7,31 @@ import com.example.greenampbluetoothcontroller.ui.BatteryPackListFragment
 import com.example.greenampbluetoothcontroller.R
 import com.example.greenampbluetoothcontroller.ble_library.models.BLEDevice
 import com.example.greenampbluetoothcontroller.test.DetailsFragment
-import com.example.greenampbluetoothcontroller.test.TestFragment
-import com.example.greenampbluetoothcontroller.ui.BatteryDetailsFragment
 import com.example.greenampbluetoothcontroller.ui.FragmentPairNew
+import com.example.greenampbluetoothcontroller.ui.BatteryDetailsFragment
 import com.example.greenampbluetoothcontroller.ui.FragmentPinVerification
 
 fun AppCompatActivity.navToTestFragment(){
-    TestFragment().beginFragmentTransaction(supportFragmentManager)
+    FragmentPairNew().beginFragmentTransaction(supportFragmentManager)
 }
+
+fun Fragment.navToPairDevice(){
+    FragmentPairNew().beginFragmentTransaction(requireActivity().supportFragmentManager)
+}
+
+
+fun AppCompatActivity.navToPairDevice(){
+    FragmentPairNew().beginFragmentTransaction(supportFragmentManager)
+}
+fun AppCompatActivity.navToBatteryDetails(bleDevice: BLEDevice) {
+    BatteryDetailsFragment(bleDevice).beginFragmentTransaction(supportFragmentManager)
+}
+
+
+fun Fragment.navToBatteryDetails(bleDevice: BLEDevice) {
+    BatteryDetailsFragment(bleDevice).beginFragmentTransaction(requireActivity().supportFragmentManager)
+}
+
 
 fun Fragment.navToDetailsScreen(bleDevice : BLEDevice){
     DetailsFragment(bleDevice).beginFragmentTransaction(requireActivity().supportFragmentManager)
@@ -29,18 +46,10 @@ fun Fragment.navToBatteryPackList(){
     BatteryPackListFragment().beginFragmentTransaction(requireActivity().supportFragmentManager)
 }
 
-fun Fragment.navToPairDevice(){
-    FragmentPairNew().beginFragmentTransaction(requireActivity().supportFragmentManager)
-}
 
 fun Fragment.navToFragmentPinVerification(){
     FragmentPinVerification().beginFragmentTransaction(requireActivity().supportFragmentManager)
 }
-
-fun Fragment.navToBatteryDetails(){
-    BatteryDetailsFragment().beginFragmentTransaction(requireActivity().supportFragmentManager)
-}
-
 
 fun Fragment?.beginFragmentTransaction(fragmentManager: FragmentManager?, id: Int? = null) {
 

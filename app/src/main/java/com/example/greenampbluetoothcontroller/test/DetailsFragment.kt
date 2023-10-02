@@ -31,7 +31,7 @@ class DetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layout.frag
     private val characteristicsList = listOf(
         TX_CHAR_UUID,
         CCCD,
-        RX_SERVICE_UUID,
+        "RX_SERVICE_UUID",
         RX_CHAR_UUID
     )
 
@@ -146,7 +146,7 @@ class DetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layout.frag
             var candidates = it.notifiableCharacteristics
             if (candidates.isEmpty()) candidates = it.readableCharacteristics
             if (candidates.contains(deviceCharacteristic)) candidates =
-                arrayListOf(deviceCharacteristic, CCCD, RX_SERVICE_UUID, RX_CHAR_UUID)
+                arrayListOf(deviceCharacteristic, CCCD, "RX_SERVICE_UUID", RX_CHAR_UUID)
             val characteristic = candidates.first()
 
 
@@ -201,7 +201,7 @@ class DetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layout.frag
         val CCCD = "00002902-0000-1000-8000-00805f9b34fb"
         val FIRMWARE_REVISON_UUID = "00002a26-0000-1000-8000-00805f9b34fb"
         val DIS_UUID = "0000180a-0000-1000-8000-00805f9b34fb"
-        val RX_SERVICE_UUID = "0000fff0-0000-1000-8000-00805f9b34fb"
+
 
         //0000fff1 = Android --> BLE UUID Write
         val RX_CHAR_UUID = "0000fff1-0000-1000-8000-00805f9b34fb"

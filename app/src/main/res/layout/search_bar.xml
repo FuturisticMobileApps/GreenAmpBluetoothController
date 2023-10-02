@@ -6,7 +6,7 @@
     android:background="@color/app_background"
     android:paddingVertical="20dp"
     android:paddingStart="32dp"
-    android:paddingEnd="10dp">ṣ
+    android:paddingEnd="10dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/search_bar"

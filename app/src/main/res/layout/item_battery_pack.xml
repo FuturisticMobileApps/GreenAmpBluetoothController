@@ -84,7 +84,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/lblSOC" />
 
             <TextView
-                android:id="@+id/tvTemp"
                 style="@style/BatteryField"
                 android:text="48C"
                 android:textColor="#008E06"

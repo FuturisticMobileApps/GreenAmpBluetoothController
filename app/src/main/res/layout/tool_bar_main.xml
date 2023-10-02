@@ -9,7 +9,6 @@
     android:paddingEnd="10dp">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvTitle"
         style="@style/Title"
         android:text="Battery Packs"
         android:textColor="@color/text_color"

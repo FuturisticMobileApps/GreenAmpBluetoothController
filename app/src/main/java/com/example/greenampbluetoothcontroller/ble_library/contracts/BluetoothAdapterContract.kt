@@ -1,4 +1,4 @@
-package com.example.greenampbluetoothcontroller.ble_library
+package com.example.greenampbluetoothcontroller.ble_library.contracts
 
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter

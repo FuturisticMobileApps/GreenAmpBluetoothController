@@ -80,7 +80,7 @@ class BatteryPackListFragment : Fragment(R.layout.fragment_battery_pack_list) {
             layoutManager = GridLayoutManager(requireContext(), 2)
 
             adapter = BatteryPackListAdapter {
-                navToBatteryDetails()
+//                navToBatteryDetails()
             }.apply { submitList(batteryPackList) }
 
             setHasFixedSize(true)

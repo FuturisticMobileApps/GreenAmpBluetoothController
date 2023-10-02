@@ -10,11 +10,13 @@ import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.greenampbluetoothcontroller.R
+import com.example.greenampbluetoothcontroller.ble_library.models.BLEDevice
 import com.example.greenampbluetoothcontroller.databinding.ActivityBaseContainerBinding
 import com.example.greenampbluetoothcontroller.util.AppConstants.BluetoothConnect
 import com.example.greenampbluetoothcontroller.util.AppConstants.BluetoothScan
 import com.example.greenampbluetoothcontroller.util.hasPermission
-import com.example.greenampbluetoothcontroller.util.navToTestFragment
+import com.example.greenampbluetoothcontroller.util.navToBatteryDetails
+import com.example.greenampbluetoothcontroller.util.navToPairDevice
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -53,7 +55,7 @@ class BaseContainer : AppCompatActivity() {
 
             if (hasPermission(BluetoothConnect) && hasPermission(BluetoothScan)) {
                 bluetoothAdapter.enable()
-                navToTestFragment()
+                navToPairDevice()
                 return
             } else {
 
@@ -62,7 +64,7 @@ class BaseContainer : AppCompatActivity() {
 
         } else {
 
-            navToTestFragment()
+            navToPairDevice()
 
         }
     }

@@ -1,4 +1,4 @@
-package quevedo.soares.leandro.blemadeeasy.models
+package com.example.greenampbluetoothcontroller.ble_library.models
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothGatt
@@ -6,7 +6,6 @@ import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattDescriptor
 import com.example.greenampbluetoothcontroller.ble_library.exceptions.PeripheralNotObservableException
 import java.util.*
-
 @SuppressLint("MissingPermission")
 data class BluetoothCharacteristic(
 	private val characteristic: BluetoothGattCharacteristic
@@ -28,7 +27,6 @@ data class BluetoothCharacteristic(
 		this.characteristic.value = value
 		return gatt.writeCharacteristic(this.characteristic)
 	}
-
 
 	fun enableNotify(gatt: BluetoothGatt) {
 		// If the characteristic does not export the NOTIFY property, throw an exception

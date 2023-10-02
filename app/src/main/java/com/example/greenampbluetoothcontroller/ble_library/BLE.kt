@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.example.greenampbluetoothcontroller.ble_library
 
 import android.Manifest.permission
@@ -25,18 +27,31 @@ import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.example.greenampbluetoothcontroller.ble_library.exceptions.*
+import com.example.greenampbluetoothcontroller.ble_library.contracts.BluetoothAdapterContract
+import com.example.greenampbluetoothcontroller.ble_library.enums.Priority
+import com.example.greenampbluetoothcontroller.ble_library.exceptions.DisabledAdapterException
+import com.example.greenampbluetoothcontroller.ble_library.exceptions.HardwareNotPresentException
+import com.example.greenampbluetoothcontroller.ble_library.exceptions.PermissionsDeniedException
+import com.example.greenampbluetoothcontroller.ble_library.exceptions.ScanFailureException
+import com.example.greenampbluetoothcontroller.ble_library.exceptions.ScanTimeoutException
 import com.example.greenampbluetoothcontroller.ble_library.models.BLEDevice
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import kotlinx.coroutines.*
+import com.example.greenampbluetoothcontroller.ble_library.typealiases.Callback
+import com.example.greenampbluetoothcontroller.ble_library.typealiases.EmptyCallback
+import com.example.greenampbluetoothcontroller.ble_library.typealiases.PermissionRequestCallback
+import com.example.greenampbluetoothcontroller.ble_library.utils.PermissionUtils
 import java.util.*
 import kotlin.coroutines.resume
 
 internal const val DEFAULT_TIMEOUT = 10000L
 internal const val GATT_133_TIMEOUT = 600L
+
+/** https://cs.android.com/android/platform/superproject/+/master:packages/modules/Bluetooth/system/stack/include/gatt_api.h;l=543;drc=6cf6099dcab87865e33439215e7ea0087e60c9f2#:~:text=%23define%20GATT_MAX_MTU_SIZE%20517 */
+internal const val GATT_MAX_MTU = 517
 
 @Suppress("unused")
 @RequiresFeature(
@@ -79,13 +94,17 @@ class BLE {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
                 log("[Legacy] ScanSettings: Using aggressive mode")
                 setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    setMatchMode(ScanSettings.MATCH_MODE_AGGRESSIVE)
+                }
+
                 setReportDelay(0L)
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)
                 setNumOfMatches(ScanSettings.MATCH_NUM_ONE_ADVERTISEMENT)
-                setMatchMode(ScanSettings.MATCH_MODE_AGGRESSIVE)
             }
         }.build()
     }
@@ -632,13 +651,14 @@ class BLE {
         service: String? = null,
         name: String? = null,
         settings: ScanSettings? = null,
+        priority: Priority = Priority.Balanced,
         timeout: Long = DEFAULT_TIMEOUT,
         onFinish: Callback<BluetoothConnection?>? = null,
         onError: Callback<Int>? = null
     ) {
         this.coroutineScope.launch {
             try {
-                onFinish?.invoke(scanFor(macAddress, service, name, settings, timeout))
+                onFinish?.invoke(scanFor(macAddress, service, name, settings, priority, timeout))
             } catch (e: ScanTimeoutException) {
                 onFinish?.invoke(null)
             } catch (e: ScanFailureException) {
@@ -674,6 +694,7 @@ class BLE {
         service: String? = null,
         name: String? = null,
         settings: ScanSettings? = null,
+        priority: Priority = Priority.Balanced,
         timeout: Long = DEFAULT_TIMEOUT
     ): BluetoothConnection? {
         return suspendCancellableCoroutine { continuation ->
@@ -694,7 +715,7 @@ class BLE {
 
                         // Check if it is able to connect to the device
                         withTimeoutOrNull(timeout) {
-                            connect(device)
+                            connect(device, priority)
                         }?.let { connection ->
                             continuation.resume(connection)
                         }
@@ -727,7 +748,12 @@ class BLE {
                             // HACK: Adding a delay after stopping a scan and starting a connection request could solve the 133 in some cases
                             delay(GATT_133_TIMEOUT)
 
-                            if (continuation.isActive) continuation.resume(connect(bleDevice))
+                            if (continuation.isActive) continuation.resume(
+                                connect(
+                                    bleDevice,
+                                    priority
+                                )
+                            )
                         }
                     },
                     onError = { errorCode ->
@@ -825,7 +851,10 @@ class BLE {
      * @return A nullable [BluetoothConnection], null when not successful
      **/
     @RequiresPermission(permission.BLUETOOTH_CONNECT)
-    suspend fun connect(device: BluetoothDevice): BluetoothConnection? {
+    suspend fun connect(
+        device: BluetoothDevice,
+        priority: Priority = Priority.Balanced
+    ): BluetoothConnection? {
         return suspendCancellableCoroutine { continuation ->
             this.log("Trying to establish a connection with device ${device.address}...")
 
@@ -840,7 +869,7 @@ class BLE {
             BluetoothConnection(device).also {
                 it.verbose = this.verbose
                 it.coroutineScope = this.coroutineScope
-                it.establish(this.context) { successful ->
+                it.establish(this.context, priority) { successful ->
                     if (successful) {
                         log("Connected successfully with ${device.address}!")
                         continuation.resume(it)
@@ -862,7 +891,10 @@ class BLE {
      **/
     @SuppressLint("InlinedApi")
     @RequiresPermission(permission.BLUETOOTH_CONNECT)
-    suspend fun connect(device: BLEDevice): BluetoothConnection? = this.connect(device.device)
+    suspend fun connect(
+        device: BLEDevice,
+        priority: Priority = Priority.Balanced
+    ): BluetoothConnection? = this.connect(device.device, priority)
     // endregion
 
 }

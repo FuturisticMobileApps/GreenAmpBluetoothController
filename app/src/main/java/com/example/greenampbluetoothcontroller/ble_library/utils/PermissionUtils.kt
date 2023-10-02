@@ -1,4 +1,4 @@
-package com.example.greenampbluetoothcontroller.ble_library
+package com.example.greenampbluetoothcontroller.ble_library.utils
 
 import android.Manifest.*
 import android.app.Activity
@@ -26,7 +26,7 @@ internal object PermissionUtils {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 			list.addAll(android12Permissions)
 		} else {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) list.addAll(android10Permissions)
+			if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) list.addAll(android10Permissions)
 
 			list.addAll(legacyPermissions)
 			list.addAll(locationPermissions)

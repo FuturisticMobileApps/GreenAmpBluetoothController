@@ -1,43 +1,133 @@
 package com.example.greenampbluetoothcontroller.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.lifecycleScope
 import com.example.greenampbluetoothcontroller.R
-import com.example.greenampbluetoothcontroller.data.deviceList
+import com.example.greenampbluetoothcontroller.ble_library.BLE
+import com.example.greenampbluetoothcontroller.ble_library.exceptions.PermissionsDeniedException
+import com.example.greenampbluetoothcontroller.ble_library.models.BLEDevice
 import com.example.greenampbluetoothcontroller.databinding.FragmentPairNewBinding
-import com.example.greenampbluetoothcontroller.util.navToBatteryPackList
-import com.example.greenampbluetoothcontroller.util.navToFragmentPinVerification
+import com.example.greenampbluetoothcontroller.test.BLEDevicesAdapter
+import com.example.greenampbluetoothcontroller.util.*
+import kotlinx.coroutines.launch
 
+@SuppressLint("MissingPermission")
 class FragmentPairNew : Fragment(R.layout.fragment_pair_new) {
 
-    private lateinit var binding : FragmentPairNewBinding
+    private lateinit var binding: FragmentPairNewBinding
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding = FragmentPairNewBinding.bind(view)
+    private var ble: BLE? = null
 
-        initialization()
+    private val bleDeviceAdapter by lazy {
+        BLEDevicesAdapter {
+            ble?.stopScan()
+            navToBatteryDetails(it)
+        }
     }
 
-    private fun initialization() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding.toolBar.imgBack.setOnClickListener {
-            navToBatteryPackList()
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentPairNewBinding.bind(view)
+
+        startBluetooth()
+
+        checkPermission()
+
+        binding.recView.adapter = bleDeviceAdapter
+
+        binding.toolBar.cardRefresh.setOnClickListeners {
+            ble?.stopScan()
+            scanDevices()
         }
 
-        with(binding.recView){
+    }
 
-            layoutManager = LinearLayoutManager(requireContext())
 
-            adapter = PairNewDeviceListAdapter {
-                navToFragmentPinVerification()
-            }.apply {
-                submitList(deviceList)
+    private fun checkPermission() {
+
+        lifecycleScope.launch {
+
+            try {
+
+                val isPermissionsGranted =
+                    ble?.verifyPermissions(rationaleRequestCallback = { next ->
+                        makeToast("We need the bluetooth permissions!")
+                        next()
+                    }) ?: false
+
+                if (!isPermissionsGranted) {
+                    makeToast("Permissions denied!")
+                    return@launch
+                }
+
+                val isBluetoothActive = ble?.verifyBluetoothAdapterState() ?: false
+
+                if (!isBluetoothActive) {
+                    makeToast("Bluetooth adapter off!")
+                    return@launch
+                }
+
+
+                val isLocationActive = ble?.verifyLocationState() ?: false
+
+                if (!isLocationActive) {
+                    makeToast("Location services off!")
+                    return@launch
+                }
+
+                scanDevices()
+
+            } catch (e: PermissionsDeniedException) {
+                makeToast("Permissions were denied!")
+            } catch (e: Exception) {
+                e.printStackTrace()
+                makeToast("Something went wrong, Try again later!")
             }
-
-            setHasFixedSize(true)
         }
+    }
+
+
+    private fun scanDevices() {
+
+        binding.toolBar.tvScanTitle.text = "Scanning..."
+
+        lifecycleScope.launch {
+
+            ble?.scanAsync(
+                onUpdate = ::updateList,
+                onFinish = {
+                    binding.toolBar.tvScanTitle.text = "Founded devices"
+                },
+                onError = { code ->
+                    makeToast("Error code ${code}!")
+                },
+                duration = 10000
+            )
+        }
+
+    }
+
+    private fun startBluetooth() {
+        ble = BLE(fragment = this)
+        ble?.verbose = true
+    }
+
+    private fun updateList(list: List<BLEDevice>) {
+
+        val filteredList = list.filter { it.device.name.validateString().isNotEmpty() }
+
+        bleDeviceAdapter.submitList(filteredList)
+
+    }
+
+    override fun onDestroyView() {
+        ble?.stopScan()
+        ble = null
+        super.onDestroyView()
     }
 }

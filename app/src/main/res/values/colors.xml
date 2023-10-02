@@ -2,50 +2,23 @@
 <resources>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    <color name="green">#2DA815</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="app_background">#f3f3f3</color>
     <color name="text_color">#34393a</color>
     <color name="content_color">#9b9f9f</color>
     <color name="icon_background">#faf8f6</color>
-    <color name="light_grey">#acaeb0</color>
-    <color name="progress_bg">#1A000000</color>
     <color name="transparent_color">#00000000</color>
-    <color name="green">#008E06</color>
-    <color name="light_green">#90ee90</color>
-    <color name="light_orange">#fed8b1</color>
-    <color name="light_red">#ffcccb</color>
-    <color name="light_orange_yello">#fbdecf</color>
-    <color name="light_red_angalious">#fad0e0</color>
-    <color name="light_orange_angalious">#ffc6b0</color>
-    <color name="light_blue_angalious">#7cd8f3</color>
-    <color name="light_blue">#add8e6</color>
-    <color name="light_grey_2">#c3c6cd</color>
-    <color name="sky_blue">#87ceeb</color>
+    <color name="primary">#008E06</color>
     <color name="red">#FF0000</color>
-    <color name="orange">#FF7A00</color>
-    <color name="dark_blue">#006C8E</color>
-    <color name="blue">#006C8E</color>
-    <color name="divider">#CCCCCC</color>
-    <color name="grey_background_old">#B9D9D9D9</color>
-
-    <color name="gradient_background">#e9f0ff</color>
-    <color name="progress_value">#f46a48</color>
-    <color name="yellow">#FFFF00</color>
-    <color name="yellow_light">#f5e610</color>
+    <color name="blue">#6da6cc</color>
+    <color name="blue_light_thin">#2673D1</color>
+    <color name="splash_icon_color">#0F2D52</color>
 
 
-    <color name="blue_background">#dce7f9</color>
-    <color name="red_background">#ffc6cc</color>
-    <color name="yellow_background">#fef3b3</color>
     <color name="green_background">#dbf5f0</color>
-    <color name="grey_background">#edeef4</color>
 
-    <color name="text_color_red">#fd3d39</color>
-    <color name="text_color_orange">#fe9526</color>
-    <color name="text_color_yellow">#ffc82f</color>
-    <color name="text_color_green">#53d86a</color>
 </resources>

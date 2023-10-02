@@ -39,9 +39,7 @@
         android:layout_marginTop="6dp" />
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilCharacteristics"
-        style="@style/TextInputLayoutStyle.Spinner">
+    <com.google.android.material.textfield.TextInputLayout style="@style/TextInputLayoutStyle.Spinner">
 
         <AutoCompleteTextView
             android:id="@+id/acsCharacteristics"

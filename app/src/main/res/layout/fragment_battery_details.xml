@@ -1,258 +1,429 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/app_background">
+
 
     <include
         android:id="@+id/toolBar"
         layout="@layout/tool_device_details" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardBattery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        app:cardCornerRadius="20dp"
+    <TextView
+        android:id="@+id/tvConnectionStatus"
+        style="@style/Title"
+        android:layout_marginTop="24dp"
+        android:letterSpacing="0.02"
+        android:text="Starting..."
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolBar">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvConnectionStatus"
+        app:layout_constraintVertical_bias="0.0">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:minWidth="130dp"
-            android:orientation="vertical"
-            android:padding="14dp">
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-            <TextView
-                style="@style/FieldStyle"
-                android:text="Battery" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="18dp"
+                android:paddingVertical="18dp">
 
-            <TextView
-                style="@style/ValueStyle"
-                android:text="84%"
-                android:textColor="@color/green"
-                android:textSize="18sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/logo"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_vertical"
+                            android:backgroundTint="@color/text_color"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:padding="1dp"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:id="@+id/lblVoltage"
+                            style="@style/BatteryLabel"
+                            android:layout_marginStart="6dp"
+                            android:text="Voltage"
+                            app:layout_constraintBottom_toBottomOf="@+id/logo"
+                            app:layout_constraintStart_toEndOf="@+id/logo"
+                            app:layout_constraintTop_toTopOf="@+id/logo"
+                            app:layout_constraintVertical_bias="0.26" />
+
+                        <TextView
+                            android:id="@+id/tvVoltage"
+                            style="@style/BatteryField"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/lblVoltage"
+                            tools:text="30000 mV" />
 
 
-    </com.google.android.material.card.MaterialCardView>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardTemp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        app:cardCornerRadius="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/cardBattery"
-        app:layout_constraintHorizontal_bias="0.0"
+                    <View
+                        android:layout_width="98dp"
+                        android:layout_height="10dp" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/logoCurrent"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_vertical"
+                            android:backgroundTint="@color/text_color"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:id="@+id/lblCurrent"
+                            style="@style/BatteryLabel"
+                            android:layout_marginStart="6dp"
+                            android:text="Current"
+                            app:layout_constraintBottom_toBottomOf="@+id/logoCurrent"
+                            app:layout_constraintStart_toEndOf="@+id/logoCurrent"
+                            app:layout_constraintTop_toTopOf="@+id/logoCurrent"
+                            app:layout_constraintVertical_bias="0.26" />
+
+                        <TextView
+                            android:id="@+id/tvCurrent"
+                            style="@style/BatteryField"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/lblCurrent"
+                            tools:text="30000 mA" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/logoSoc"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_vertical"
+                            android:backgroundTint="@color/text_color"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:id="@+id/lblSOC"
+                            style="@style/BatteryLabel"
+                            android:layout_marginStart="6dp"
+                            android:text="SOC"
+                            app:layout_constraintBottom_toBottomOf="@+id/logoSoc"
+                            app:layout_constraintStart_toEndOf="@+id/logoSoc"
+                            app:layout_constraintTop_toTopOf="@+id/logoSoc"
+                            app:layout_constraintVertical_bias="0.26" />
+
+                        <TextView
+                            android:id="@+id/tvSoc"
+                            style="@style/BatteryField"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/lblSOC"
+                            tools:text="98 s" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="122dp"
+                        android:layout_height="10dp" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/logTemp"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_vertical"
+                            android:backgroundTint="@color/text_color"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:id="@+id/lblTemp"
+                            style="@style/BatteryLabel"
+                            android:layout_marginStart="6dp"
+                            android:text="Temperature"
+                            app:layout_constraintBottom_toBottomOf="@+id/logTemp"
+                            app:layout_constraintStart_toEndOf="@+id/logTemp"
+                            app:layout_constraintTop_toTopOf="@+id/logTemp"
+                            app:layout_constraintVertical_bias="0.26" />
+
+                        <TextView
+                            android:id="@+id/tvTemperature"
+                            style="@style/BatteryField"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/lblTemp"
+                            tools:text="30000 mV" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/logoVCell"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_vertical"
+                            android:backgroundTint="@color/text_color"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:id="@+id/lblCellVoltage"
+                            style="@style/BatteryLabel"
+                            android:layout_marginStart="6dp"
+                            android:text="VCell"
+                            app:layout_constraintBottom_toBottomOf="@+id/logoVCell"
+                            app:layout_constraintStart_toEndOf="@+id/logoVCell"
+                            app:layout_constraintTop_toTopOf="@+id/logoVCell"
+                            app:layout_constraintVertical_bias="0.26" />
+
+                        <TextView
+                            android:id="@+id/tvCellVoltage"
+                            style="@style/BatteryField"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/lblCellVoltage"
+                            tools:text="6 Cells" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvCell1"
+                                style="@style/BatteryLabel"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 1 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell2"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell3"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell4"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell5"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell6"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell7"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell8"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell9"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell10"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell11"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell12"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell13"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell14"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell15"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvCell16"
+                                style="@style/BatteryLabel"
+                                android:layout_marginTop="2dp"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                tools:text="Cell 2 : 40022mV"
+                                tools:visibility="visible" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </ScrollView>
+
+                </LinearLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <include
+        android:id="@+id/progressBar"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolBar">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minWidth="180dp"
-            android:orientation="vertical"
-            android:padding="14dp">
-
-            <TextView
-                style="@style/FieldStyle"
-                android:text="Average Temperature" />
-
-            <TextView
-                style="@style/ValueStyle"
-                android:layout_gravity="center"
-                android:text="24.7&#176;c"
-                android:textColor="@color/red"
-                android:textSize="18sp" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardTemp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="14dp">
-
-            <TextView
-                android:id="@+id/lblOpenCircuitVoltage"
-                style="@style/FieldStyle"
-                android:text="Open Circuit Voltage :"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvOpenCircuitVoltage"
-                style="@style/ValueStyle"
-                android:layout_marginStart="10dp"
-                android:text="30000 mV"
-                app:layout_constraintBottom_toBottomOf="@+id/lblOpenCircuitVoltage"
-                app:layout_constraintStart_toEndOf="@+id/lblOpenCircuitVoltage"
-                app:layout_constraintTop_toTopOf="@+id/lblOpenCircuitVoltage" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card2">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="14dp">
-
-            <TextView
-                android:id="@+id/tvWatts"
-                style="@style/ValueStyle"
-                android:text="1254.5 W"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/lblDischargeCurrent"
-                style="@style/FieldStyle"
-                android:layout_marginTop="10dp"
-                android:text="Discharge Current :"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvWatts" />
-
-            <TextView
-                android:id="@+id/tvDischargeCurrent"
-                style="@style/ValueStyle"
-                android:layout_marginStart="10dp"
-                android:text="16850 mA"
-                app:layout_constraintBottom_toBottomOf="@+id/lblDischargeCurrent"
-                app:layout_constraintStart_toEndOf="@+id/lblDischargeCurrent"
-                app:layout_constraintTop_toTopOf="@+id/lblDischargeCurrent" />
-
-
-            <TextView
-                android:id="@+id/lblPackVoltage"
-                style="@style/FieldStyle"
-                android:layout_marginTop="10dp"
-                android:text="Pack Voltage :"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvDischargeCurrent" />
-
-            <TextView
-                android:id="@+id/tvPackVoltage"
-                style="@style/ValueStyle"
-                android:layout_marginStart="10dp"
-                android:text="74456 mV"
-                app:layout_constraintBottom_toBottomOf="@+id/lblPackVoltage"
-                app:layout_constraintStart_toEndOf="@+id/lblPackVoltage"
-                app:layout_constraintTop_toTopOf="@+id/lblPackVoltage" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="4dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card3">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="14dp">
-
-            <TextView
-                android:id="@+id/lblAvgTemp"
-                style="@style/FieldStyle"
-                android:text="Average Temperature :"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvAvgTemp"
-                style="@style/ValueStyle"
-                android:layout_marginStart="10dp"
-                android:text="28.7 C"
-                app:layout_constraintBottom_toBottomOf="@+id/lblAvgTemp"
-                app:layout_constraintStart_toEndOf="@+id/lblAvgTemp"
-                app:layout_constraintTop_toTopOf="@+id/lblAvgTemp" />
-
-            <TextView
-                android:id="@+id/lblMinTemp"
-                style="@style/FieldStyle"
-                android:layout_marginTop="10dp"
-                android:text="Minimum Temperature :"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvAvgTemp" />
-
-            <TextView
-                android:id="@+id/tvMinTemp"
-                style="@style/ValueStyle"
-                android:layout_marginStart="10dp"
-                android:text="28.7 C"
-                app:layout_constraintBottom_toBottomOf="@+id/lblMinTemp"
-                app:layout_constraintStart_toEndOf="@+id/lblMinTemp"
-                app:layout_constraintTop_toTopOf="@+id/lblMinTemp" />
-
-            <TextView
-                android:id="@+id/lblMaxTemp"
-                style="@style/FieldStyle"
-                android:layout_marginTop="10dp"
-                android:text="Maximum Temperature :"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvMinTemp" />
-
-            <TextView
-                android:id="@+id/tvMaxTemp"
-                style="@style/ValueStyle"
-                android:layout_marginStart="10dp"
-                android:text="28.7 C"
-                app:layout_constraintBottom_toBottomOf="@+id/lblMaxTemp"
-                app:layout_constraintStart_toEndOf="@+id/lblMaxTemp"
-                app:layout_constraintTop_toTopOf="@+id/lblMaxTemp" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </com.google.android.material.card.MaterialCardView>
-
+        layout="@layout/layout_loader"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

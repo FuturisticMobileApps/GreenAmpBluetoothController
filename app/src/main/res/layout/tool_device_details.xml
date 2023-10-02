@@ -3,18 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/app_background"
-    android:paddingVertical="20dp"
-    android:paddingStart="20dp"
-    android:paddingEnd="10dp">
+    android:background="@color/primary"
+    android:padding="16dp">
 
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvDeviceDetails"
         style="@style/Title"
         android:layout_marginStart="10dp"
         android:text="BAT-0015"
-        android:textColor="@color/text_color"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/imgBack"
         app:layout_constraintStart_toEndOf="@+id/imgBack"
         app:layout_constraintTop_toTopOf="@+id/imgBack" />
@@ -29,7 +26,28 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/text_color" />
+        app:tint="@color/white" />
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardConnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgConnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            android:padding="6dp"
+            android:src="@drawable/ic_bluetooth_search_24"
+            app:tint="@color/primary" />
+
+    </com.google.android.material.card.MaterialCardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
