@@ -481,7 +481,7 @@ class BatteryDetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layo
                 // Update variables
                 updateStatus(false, "Connected!")
 
-                onButtonObserveClick()
+//                onButtonObserveClick()
             }
 
             // Define the on disconnect handler
