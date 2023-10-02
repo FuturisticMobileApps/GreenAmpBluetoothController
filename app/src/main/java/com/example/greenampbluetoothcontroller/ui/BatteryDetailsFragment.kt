@@ -98,6 +98,7 @@ class BatteryDetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layo
             if (isObserving) {
                 it.stopObserving(rxServiceUUID)
             } else {
+
                 it.observeString(
                     rxServiceUUID,
                     owner = this.viewLifecycleOwner,
@@ -117,11 +118,11 @@ class BatteryDetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layo
 
                         tvSoc.text = "${getSOC(new, 92, 94)} %"
 
-                        val cells = getCellCount(testData, 24, 28)
+                        val cells = getCellCount(new, 24, 28)
 
                         tvCellVoltage.text = "${cells.first} cells"
 
-                        enableCell(testData, cells.second)
+                        enableCell(new, cells.second)
                     }
                 }
             }
