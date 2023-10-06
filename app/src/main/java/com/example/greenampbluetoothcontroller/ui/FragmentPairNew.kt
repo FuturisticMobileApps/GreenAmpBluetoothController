@@ -1,6 +1,8 @@
 package com.example.greenampbluetoothcontroller.ui
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.bluetooth.BluetoothAdapter
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -12,7 +14,10 @@ import com.example.greenampbluetoothcontroller.ble_library.models.BLEDevice
 import com.example.greenampbluetoothcontroller.databinding.FragmentPairNewBinding
 import com.example.greenampbluetoothcontroller.test.BLEDevicesAdapter
 import com.example.greenampbluetoothcontroller.util.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @SuppressLint("MissingPermission")
 class FragmentPairNew : Fragment(R.layout.fragment_pair_new) {
@@ -21,20 +26,46 @@ class FragmentPairNew : Fragment(R.layout.fragment_pair_new) {
 
     private var ble: BLE? = null
 
+    private var animationJob: Job? = null
+
+    @Inject
+    lateinit var bluetoothAdapter: BluetoothAdapter
+
     private val bleDeviceAdapter by lazy {
         BLEDevicesAdapter {
             ble?.stopScan()
-            navToBatteryDetails(it)
+//            navToBatteryDetails(it)
+            navFromPairNewToBatteryDetails(it.macAddress,it.name)
         }
     }
+
+    private fun startAnimation() {
+        animationJob = lifecycleScope.launch {
+            while (true) {
+                val dots = ".".repeat((binding.toolBar.tvScanTitle.text.length % 4) + 1)
+                binding.toolBar.tvScanTitle.text = "Scanning$dots"
+                delay(500) // Delay between dot changes (500ms)
+            }
+        }
+    }
+
+    private fun stopScanningAnimation() {
+        animationJob?.cancel()
+        animationJob = null
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        this.setupBluetooth()
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentPairNewBinding.bind(view)
-
-        startBluetooth()
 
         checkPermission()
 
@@ -91,16 +122,17 @@ class FragmentPairNew : Fragment(R.layout.fragment_pair_new) {
         }
     }
 
-
     private fun scanDevices() {
 
         binding.toolBar.tvScanTitle.text = "Scanning..."
+        startAnimation()
 
         lifecycleScope.launch {
 
             ble?.scanAsync(
                 onUpdate = ::updateList,
                 onFinish = {
+                    stopScanningAnimation()
                     binding.toolBar.tvScanTitle.text = "Founded devices"
                 },
                 onError = { code ->
@@ -112,9 +144,20 @@ class FragmentPairNew : Fragment(R.layout.fragment_pair_new) {
 
     }
 
-    private fun startBluetooth() {
-        ble = BLE(fragment = this)
-        ble?.verbose = true
+    private fun setupBluetooth() {
+        try {
+            this.ble = BLE(this).apply {
+                verbose = true
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            AlertDialog.Builder(this.context)
+                .setTitle("Error!")
+                .setMessage(e.message)
+                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                .show()
+        }
     }
 
     private fun updateList(list: List<BLEDevice>) {
@@ -125,9 +168,10 @@ class FragmentPairNew : Fragment(R.layout.fragment_pair_new) {
 
     }
 
-    override fun onDestroyView() {
+    override fun onDestroy() {
+        super.onDestroy()
         ble?.stopScan()
         ble = null
-        super.onDestroyView()
     }
+
 }

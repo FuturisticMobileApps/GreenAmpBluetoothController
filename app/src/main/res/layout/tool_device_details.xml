@@ -10,7 +10,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/Title"
         android:layout_marginStart="10dp"
-        android:text="BAT-0015"
+        android:text="Battery Details"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/imgBack"
         app:layout_constraintStart_toEndOf="@+id/imgBack"

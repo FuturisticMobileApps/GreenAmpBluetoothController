@@ -17,8 +17,6 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.greenampbluetoothcontroller.R
 
-//val testData = "31D400009A990D42CDFC484507E0800C800C800C000000000000000000000000000000000000000080800C0C800C32"
-
 val testData = "31D400009A990D42CDFC484507E0800C800C800C0000000000000000000000000000000000000000800C800C800C32"
 
 fun TextView?.visibleAndSetText( text : String){

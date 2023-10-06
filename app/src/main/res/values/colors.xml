@@ -20,5 +20,9 @@
 
 
     <color name="green_background">#dbf5f0</color>
+    <color name="gradient_background">#e9f0ff</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="orange">#FF7A00</color>
+    <color name="battery_border">#e9f0ff</color>
 
 </resources>

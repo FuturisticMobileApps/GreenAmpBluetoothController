@@ -3,16 +3,17 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
     namespace 'com.example.greenampbluetoothcontroller'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.greenampbluetoothcontroller"
         minSdk 21
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -61,6 +62,15 @@ dependencies {
     // dagger-hilt
     implementation "com.google.dagger:hilt-android:2.46"
     kapt "com.google.dagger:hilt-android-compiler:2.46"
+
+    //navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:2.7.4"
+    implementation "androidx.navigation:navigation-ui-ktx:2.7.4"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.7.4"
+
+    /* Contracts */
+    implementation 'androidx.activity:activity-ktx:1.8.0'
+    implementation 'androidx.fragment:fragment-ktx:1.6.1'
 
 }
 

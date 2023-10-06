@@ -8,6 +8,8 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.greenampbluetoothcontroller.R
 import com.example.greenampbluetoothcontroller.ble_library.BLE
 import com.example.greenampbluetoothcontroller.ble_library.BluetoothConnection
@@ -18,13 +20,13 @@ import com.example.greenampbluetoothcontroller.databinding.FragmentBatteryDetail
 import com.example.greenampbluetoothcontroller.util.makeToast
 import com.example.greenampbluetoothcontroller.util.navToPairDevice
 import com.example.greenampbluetoothcontroller.util.setOnClickListeners
-import com.example.greenampbluetoothcontroller.util.testData
-import com.example.greenampbluetoothcontroller.util.validateString
 import com.example.greenampbluetoothcontroller.util.visibleAndSetText
 import kotlinx.coroutines.launch
 
 @SuppressLint("MissingPermission")
-class BatteryDetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layout.fragment_battery_details) {
+class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details) {
+
+    private val args : BatteryDetailsFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentBatteryDetailsBinding
 
@@ -32,7 +34,7 @@ class BatteryDetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layo
     private var connection: BluetoothConnection? = null
 
     private var isObserving: Boolean = false
-    private val rxServiceUUID = "0000fff0-0000-1000-8000-00805f9b34fb"
+    private val rxServiceUUID = "0000fff4-0000-1000-8000-00805f9b34fb"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,32 @@ class BatteryDetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentBatteryDetailsBinding.bind(view)
+        requestPermissions()
+    }
+
+
+    private fun requestPermissions() = lifecycleScope.launch {
+        Log.d("MainActivity", "Setting bluetooth manager up...")
+
+        val permissionsGranted = ble?.verifyPermissions(rationaleRequestCallback = { next ->
+            makeToast("We need the bluetooth permissions!")
+            next()
+        })
+        if (permissionsGranted == false) {
+            // Shows UI feedback if the permissions were denied
+            makeToast("Permissions denied!")
+            return@launch
+        }
+
+        if (ble?.verifyBluetoothAdapterState() == false) {
+            makeToast("Bluetooth adapter off!")
+            return@launch
+        }
+
+        if (ble?.verifyLocationState() == false) {
+            makeToast("Location services off!")
+            return@launch
+        }
 
         initialization()
 
@@ -53,7 +81,7 @@ class BatteryDetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layo
         with(binding) {
 
             toolBar.imgBack.setOnClickListeners {
-                navToPairDevice()
+                findNavController().popBackStack()
             }
 
             onButtonConnectClick()
@@ -63,12 +91,12 @@ class BatteryDetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layo
 
                 onButtonObserveClick()
 
-               /* if (binding.tvConnectionStatus.text != "Not Updated" || binding.tvConnectionStatus.text != "Disconnected!"){
-                    onButtonDisconnectClick()
-                } else{
-                    onButtonConnectClick()
-                }
-*/
+                /* if (binding.tvConnectionStatus.text != "Not Updated" || binding.tvConnectionStatus.text != "Disconnected!"){
+                     onButtonDisconnectClick()
+                 } else{
+                     onButtonConnectClick()
+                 }
+ */
             }
         }
     }
@@ -99,43 +127,248 @@ class BatteryDetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layo
                 it.stopObserving(rxServiceUUID)
             } else {
 
-                it.observeString(
+                it.observe(
                     rxServiceUUID,
                     owner = this.viewLifecycleOwner,
                     interval = 5000L,
-                    charset = Charsets.UTF_8
-                ) { new ->
+                ) { byteArray ->
 
-                    makeToast(new)
 
                     with(binding) {
 
-                        tvVoltage.text = "${getVoltage(new, 0, 8)} mV"
 
-                        tvTemperature.text = "${getFloatValue(new, 8, 16)}°C"
+                        tvVoltage.text = "${DataFormatter.getVoltage(byteArray)} mV"
 
-                        tvCurrent.text = "${getFloatValue(new, 16, 24)} mA"
+                        tvTemperature.text = "${DataFormatter.getTemperature(byteArray)}°C"
 
-                        tvSoc.text = "${getSOC(new, 92, 94)} %"
+                        tvCurrent.text = "${DataFormatter.getCurrent(byteArray)} mA"
 
-                        val cells = getCellCount(new, 24, 28)
+                        tvSoc.text = "${DataFormatter.getSOC(byteArray)} %"
 
-                        tvCellVoltage.text = "${cells.first} cells"
+                        val cells = DataFormatter.getCellCount(byteArray)
 
-                        enableCell(new, cells.second)
+                        tvCellVoltage.text = "${cells.first}S Voltages"
+
+                        enableAllCells(byteArray, cells.second)
                     }
                 }
             }
 
-            val observeTxt =
-                if (isObserving) "Observing..." else "Not Updated"
-
-            updateStatus(false,observeTxt)
-
             this.isObserving = !isObserving
 
+            val observeTxt =
+                if (isObserving) "Updating..." else "Not Updated"
+
+            updateStatus(false, observeTxt)
+
+        }
+
+    }
+
+
+    private fun enableAllCells(byteArray: ByteArray, booleanArray: BooleanArray) {
+
+        if (booleanArray.size > 16) return
+
+        with(binding) {
+
+            var cellCount = 0
+
+            if (booleanArray[0]) {
+                cellCount++
+                tvCell1.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            14,
+                            15
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[1]) {
+                cellCount++
+                tvCell2.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            16,
+                            17
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[2]) {
+                cellCount++
+                tvCell3.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            18,
+                            19
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[3]) {
+                cellCount++
+                tvCell4.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            20,
+                            21
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[4]) {
+                cellCount++
+                tvCell5.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            22,
+                            23
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[5]) {
+                cellCount++
+                tvCell6.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            24,
+                            25
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[6]) {
+                cellCount++
+                tvCell7.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            26,
+                            27
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[7]) {
+                cellCount++
+                tvCell8.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            28,
+                            29
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[8]) {
+                cellCount++
+                tvCell9.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            30,
+                            31
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[9]) {
+                cellCount++
+                tvCell10.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            32,
+                            33
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[10]) {
+                cellCount++
+                tvCell11.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            34,
+                            35
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[11]) {
+                cellCount++
+                tvCell12.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            36,
+                            37
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[12]) {
+                cellCount++
+                tvCell13.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            38,
+                            39
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[13]) {
+                cellCount++
+                tvCell14.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            40,
+                            41
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[14]) {
+                cellCount++
+                tvCell15.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            42,
+                            43
+                        )
+                    } mV"
+                )
+            }
+            if (booleanArray[15]) {
+                cellCount++
+                tvCell16.visibleAndSetText(
+                    "Cell $cellCount : ${
+                        DataFormatter.getCellVoltage(
+                            byteArray,
+                            44,
+                            45
+                        )
+                    } mV"
+                )
+            }
         }
     }
+
 
     private fun onButtonConnectClick() {
         lifecycleScope.launch {
@@ -152,7 +385,7 @@ class BatteryDetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layo
                 val servicecharacteristics = rxServiceUUID
 
                 ble?.scanFor(
-                    macAddress = bleDevice.macAddress,
+                    macAddress = args.macAddress,
                     timeout = timeout,
                     priority = priority,
                     settings = scanSettings
@@ -170,318 +403,16 @@ class BatteryDetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layo
         }
     }
 
-    private fun enableCell(inputString: String, booleanArray: BooleanArray) {
-        if (booleanArray.size > 16) return
-
-        with(binding) {
-
-            if (booleanArray[0]) tvCell1.visibleAndSetText(
-                "Cell 1: ${
-                    getCellVoltage(
-                        inputString,
-                        28,
-                        32
-                    )
-                } mV"
-            )
-            if (booleanArray[1]) tvCell2.visibleAndSetText(
-                "Cell 2: ${
-                    getCellVoltage(
-                        inputString,
-                        32,
-                        36
-                    )
-                } mV"
-            )
-            if (booleanArray[2]) tvCell3.visibleAndSetText(
-                "Cell 3: ${
-                    getCellVoltage(
-                        inputString,
-                        36,
-                        40
-                    )
-                } mV"
-            )
-            if (booleanArray[3]) tvCell4.visibleAndSetText(
-                "Cell 4: ${
-                    getCellVoltage(
-                        inputString,
-                        40,
-                        44
-                    )
-                } mV"
-            )
-            if (booleanArray[4]) tvCell5.visibleAndSetText(
-                "Cell 5: ${
-                    getCellVoltage(
-                        inputString,
-                        44,
-                        48
-                    )
-                } mV"
-            )
-            if (booleanArray[5]) tvCell6.visibleAndSetText(
-                "Cell 6: ${
-                    getCellVoltage(
-                        inputString,
-                        48,
-                        52
-                    )
-                } mV"
-            )
-            if (booleanArray[6]) tvCell7.visibleAndSetText(
-                "Cell 7: ${
-                    getCellVoltage(
-                        inputString,
-                        52,
-                        56
-                    )
-                } mV"
-            )
-            if (booleanArray[7]) tvCell8.visibleAndSetText(
-                "Cell 8: ${
-                    getCellVoltage(
-                        inputString,
-                        56,
-                        60
-                    )
-                } mV"
-            )
-            if (booleanArray[8]) tvCell9.visibleAndSetText(
-                "Cell 9: ${
-                    getCellVoltage(
-                        inputString,
-                        60,
-                        64
-                    )
-                } mV"
-            )
-            if (booleanArray[9]) tvCell10.visibleAndSetText(
-                "Cell 10 ${
-                    getCellVoltage(
-                        inputString,
-                        64,
-                        68
-                    )
-                } mV"
-            )
-            if (booleanArray[10]) tvCell11.visibleAndSetText(
-                "Cell 11 ${
-                    getCellVoltage(
-                        inputString,
-                        68,
-                        72
-                    )
-                } mV"
-            )
-            if (booleanArray[11]) tvCell12.visibleAndSetText(
-                "Cell 12 ${
-                    getCellVoltage(
-                        inputString,
-                        72,
-                        76
-                    )
-                } mV"
-            )
-            if (booleanArray[12]) tvCell13.visibleAndSetText(
-                "Cell 13 ${
-                    getCellVoltage(
-                        inputString,
-                        76,
-                        80
-                    )
-                } mV"
-            )
-            if (booleanArray[13]) tvCell14.visibleAndSetText(
-                "Cell 14 ${
-                    getCellVoltage(
-                        inputString,
-                        80,
-                        84
-                    )
-                } mV"
-            )
-            if (booleanArray[14]) tvCell15.visibleAndSetText(
-                "Cell 15 ${
-                    getCellVoltage(
-                        inputString,
-                        84,
-                        88
-                    )
-                } mV"
-            )
-            if (booleanArray[15]) tvCell16.visibleAndSetText(
-                "Cell 16 ${
-                    getCellVoltage(
-                        inputString,
-                        88,
-                        92
-                    )
-                } mV"
-            )
-        }
-    }
-
-    private fun getVoltage(inputString: String, start: Int, end: Int): String {
-
-        return try {
-
-            val targetString = inputString.validateString().substring(start, end)
-
-            if (targetString.length != 8) {
-                return "-"
-            }
-
-            val hexStrings = targetString.validateString().chunked(2).map { it.toInt(16) }
-
-            val bytes = byteArrayOf(
-                hexStrings[0].toByte(), hexStrings[1].toByte(), hexStrings[2].toByte(),
-                hexStrings[3].toByte()
-            )
-            val int = ((bytes[3].toInt() and 0xFF) shl 24) or
-                    ((bytes[2].toInt() and 0xFF) shl 16) or
-                    ((bytes[1].toInt() and 0xFF) shl 8) or
-                    (bytes[0].toInt() and 0xFF)
-
-            Log.i("output", "getVoltage: $int")
-
-            return int.toString()
-
-        } catch (e: Exception) {
-            "-"
-        }
-    }
-
-    private fun getFloatValue(inputString: String, start: Int, end: Int): String {
-
-        return try {
-
-            val targetString = inputString.validateString().substring(start, end)
-
-            if (targetString.length != 8) {
-                return "-"
-            }
-
-            val hexStrings = targetString.validateString().chunked(2).map { it.toInt(16) }
-
-
-            val bytes = byteArrayOf(
-                hexStrings[0].toByte(), hexStrings[1].toByte(), hexStrings[2].toByte(),
-                hexStrings[3].toByte()
-            )
-
-            val intBits = ((bytes[3].toInt() and 0xFF) shl 24) or
-                    ((bytes[2].toInt() and 0xFF) shl 16) or
-                    ((bytes[1].toInt() and 0xFF) shl 8) or
-                    (bytes[0].toInt() and 0xFF)
-            val float = Float.fromBits(intBits)
-
-            println("The float value is: $float")
-
-            return float.toString()
-
-        } catch (e: Exception) {
-            "-"
-        }
-    }
-
-    private fun getSOC(inputString: String, start: Int, end: Int): String {
-
-        return try {
-
-            val targetString = inputString.validateString().substring(start, end)
-
-            if (targetString.length != 2) {
-                return "-"
-            }
-
-            val hexInt = targetString.toInt(16)
-
-            val byte: Byte = hexInt.toByte()
-            val int: Int = byte.toInt() and 0xFF
-            println("The integer value is: $int")
-
-            int.toString()
-
-        } catch (e: Exception) {
-            "-"
-        }
-    }
-
-    private fun getCellCount(
-        inputString: String,
-        start: Int,
-        end: Int
-    ): Pair<String, BooleanArray> {
-
-        return try {
-
-            val targetString = inputString.validateString().substring(start, end)
-
-            if (targetString.length != 4) {
-                Pair("-", BooleanArray(16))
-            }
-
-            val hexStrings = targetString.validateString().chunked(2).map { it.toInt(16) }
-
-            val bytes = byteArrayOf(hexStrings[0].toByte(), hexStrings[1].toByte())
-            val boolArray = BooleanArray(16)
-            for (i in bytes.indices) {
-                for (j in 0 until 8) {
-                    boolArray[i * 8 + j] = bytes[i].toInt() and (1 shl j) != 0
-                }
-            }
-            println("The Boolean array is: ${boolArray.contentToString()}")
-
-            val trueCount = boolArray.count { it }
-            println("The number of true values is: $trueCount")
-
-            Pair(trueCount.toString(), boolArray)
-
-        } catch (e: Exception) {
-            Pair("-", BooleanArray(16))
-        }
-    }
-
-    private fun getCellVoltage(inputString: String, start: Int, end: Int): String {
-
-        return try {
-
-            val targetString = inputString.validateString().substring(start, end)
-
-            if (targetString.length != 4) {
-                return "-"
-            }
-
-            val hexStrings = targetString.validateString().chunked(2).map { it.toInt(16) }
-
-            val bytes = byteArrayOf(
-                hexStrings[0].toByte(), hexStrings[1].toByte()
-            )
-
-            val uint16 = ((bytes[1].toInt() and 0xFF) shl 8) or
-                    (bytes[0].toInt() and 0xFF)
-            println("The uint16_t value is: $uint16")
-
-            return uint16.toString()
-
-        } catch (e: Exception) {
-            "-"
-        }
-    }
-
 
     private fun onDeviceConnected(connection: BluetoothConnection) {
         connection.apply {
             this@BatteryDetailsFragment.connection = connection
             // For larger messages, you can use this method to request a larger MTU
             // val success = connection?.requestMTU(512)
-
             // Define the on re-connect handler
             onConnect = {
                 // Update variables
-                updateStatus(false, "Connected!")
-
+                updateStatus(false, "Connected")
 //                onButtonObserveClick()
             }
 
@@ -490,7 +421,7 @@ class BatteryDetailsFragment(private val bleDevice: BLEDevice) : Fragment(R.layo
                 updateStatus(false, "Disconnected!")
             }
 
-            updateStatus(false, "Connected!")
+            updateStatus(false, "Connected")
 
         }
     }

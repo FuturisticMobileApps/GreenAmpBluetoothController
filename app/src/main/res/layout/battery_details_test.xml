@@ -21,13 +21,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolBar" />
 
+    <com.example.greenampbluetoothcontroller.battery.BatteryLevelIndicator
+        android:id="@+id/batteryLevelIndicatorView"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        app:borderStrokeColor="@color/text_color"
+        app:borderStrokeSize="4dp"
+        app:cornerRadius="10dp"
+        app:excellentLevelColor="@color/green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvConnectionStatus"
+        app:lowLevelColor="@color/red"
+        app:normalLevelColor="@color/orange"
+        app:percent="0" />
+
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvConnectionStatus"
+        app:layout_constraintTop_toBottomOf="@id/batteryLevelIndicatorView"
         app:layout_constraintVertical_bias="0.0">
 
         <com.google.android.material.card.MaterialCardView
@@ -45,6 +64,18 @@
                 android:orientation="vertical"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="20dp">
+
+                <ProgressBar
+                    android:id="@+id/progressDC"
+                    style="@style/CircularDeterminateProgressBar"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:visibility="gone"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintEnd_toEndOf="@+id/lblDischargeCurrent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lblDischargeCurrent"
+                    tools:progress="80" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
