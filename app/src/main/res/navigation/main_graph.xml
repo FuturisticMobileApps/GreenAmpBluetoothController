@@ -7,25 +7,21 @@
 
 
     <fragment
-        android:id="@+id/fragmentPairNew"
-        android:name="com.example.greenampbluetoothcontroller.ui.FragmentPairNew"
-        android:label="FragmentPairNew"
-        tools:layout="@layout/fragment_pair_new">
-        <action
-            android:id="@+id/action_fragmentPairNew_to_batteryDetailsFragment"
-            app:destination="@id/batteryDetailsFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/batteryDetailsFragment"
         android:name="com.example.greenampbluetoothcontroller.ui.BatteryDetailsFragment"
         android:label="BatteryDetailsFragment"
-        tools:layout="@layout/fragment_battery_details">
+        tools:layout="@layout/fragment_battery_details_new">
         <argument
             android:name="macAddress"
             app:argType="string" />
         <argument
             android:name="deviceName"
             app:argType="string" />
+        <action
+            android:id="@+id/action_batteryDetailsFragment_to_fragmentConnectedDevice"
+            app:destination="@id/fragmentConnectedDevice"
+            app:popUpTo="@id/batteryDetailsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/permissionFragment"
@@ -33,7 +29,21 @@
         android:label="PermissionFragment"
         tools:layout="@layout/fragment_permission">
         <action
-            android:id="@+id/action_permissionFragment_to_fragmentPairNew"
-            app:destination="@id/fragmentPairNew" />
+            android:id="@+id/action_permissionFragment_to_fragmentConnectedDevice"
+            app:destination="@id/fragmentConnectedDevice" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentConnectedDevice"
+        android:name="com.example.greenampbluetoothcontroller.ui.FragmentConnectedDevice"
+        android:label="FragmentConnectedDevice"
+        tools:layout="@layout/fragment_connected_device">
+        <action
+            android:id="@+id/action_fragmentConnectedDevice_to_batteryDetailsFragment"
+            app:destination="@id/batteryDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/supportFragment"
+        android:name="com.example.greenampbluetoothcontroller.ui.SupportFragment"
+        tools:layout="@layout/fragment_support"
+        android:label="SupportFragment" />
 </navigation>

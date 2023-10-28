@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/app_background"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="14dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvDeviceName"
+        style="@style/TextViewStyle"
+        android:textColor="@color/light_white"
+        android:textSize="20sp"
+        app:fontFamily="@font/ibm_plex_sans_thai_regular"
+        tools:text="BAT- 001" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:tint="@color/light_white"
+        android:layout_marginStart="60dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/forward_icon" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

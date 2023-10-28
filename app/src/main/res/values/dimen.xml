@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="packs_margin">8dp</dimen>
+    <dimen name="packs_gap">50dp</dimen>
+    <dimen name="values_gap">10dp</dimen>
+    <dimen name="values_large_gap">136dp</dimen>
+    <dimen name="horizontal_padding">30dp</dimen>
+    <dimen name="top_margin_dp">200dp</dimen>
+</resources>

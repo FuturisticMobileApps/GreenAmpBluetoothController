@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ScrollView
+        android:id="@+id/clConnected"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/green_background"
+        android:scrollbars="none"
+        android:visibility="gone">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="18dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icBack"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_back_ios_24"
+                android:tint="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvName"
+                style="@style/BatteryTitle"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toEndOf="@+id/icBack"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="BAT-0015" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSeriesPackName"
+                style="@style/BatterySeries"
+                app:layout_constraintStart_toStartOf="@+id/tvName"
+                app:layout_constraintTop_toBottomOf="@+id/tvName"
+                tools:text="16 Series Pack" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvStatusLbl"
+                style="@style/VoltageLabel"
+                android:layout_marginTop="8dp"
+                android:text="Status"
+                app:layout_constraintStart_toStartOf="@+id/tvChargingStatus"
+                app:layout_constraintTop_toTopOf="@+id/tvName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvChargingStatus"
+                style="@style/ChargingStatus"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvStatusLbl"
+                tools:text="Idle  " />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/linearLayoutCompat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSeriesPackName">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/horizontal_padding">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="01." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack1"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/packs_gap"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="02." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack2"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="@dimen/horizontal_padding">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/packs_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="03." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack3"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/packs_gap"
+                        android:layout_marginTop="@dimen/packs_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="04." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack4"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="@dimen/horizontal_padding">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/packs_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="05." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack5"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/packs_gap"
+                        android:layout_marginTop="@dimen/packs_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="06." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack6"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="@dimen/horizontal_padding">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/packs_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="07." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack7"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/packs_gap"
+                        android:layout_marginTop="@dimen/packs_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="08." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack8"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="@dimen/horizontal_padding">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/packs_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="09." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack9"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/packs_gap"
+                        android:layout_marginTop="@dimen/packs_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="10." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack10"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="@dimen/horizontal_padding">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/packs_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="11." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack11"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/packs_gap"
+                        android:layout_marginTop="@dimen/packs_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="12." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack12"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="@dimen/horizontal_padding">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/packs_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="13." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack13"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/packs_gap"
+                        android:layout_marginTop="@dimen/packs_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="14." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack14"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="@dimen/horizontal_padding">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/packs_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="15." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack15"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llPack16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/packs_gap"
+                        android:layout_marginTop="@dimen/packs_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/VoltageLabel"
+                            android:text="16." />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvPack16"
+                            style="@style/VoltageValue"
+                            tools:text=" 3650 mV" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/LabelStyle"
+                        android:layout_alignEnd="@+id/verticalGuideline"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:text="SOC" />
+
+
+                    <com.example.greenampbluetoothcontroller.util.DynamicGradientTextView
+                        android:id="@+id/tvSOC"
+                        style="@style/SOCStyle"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/verticalGuideline"
+                        tools:text="96%" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/black" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/LabelStyle"
+                        android:layout_alignEnd="@+id/verticalGuideline"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:text="CURRENT" />
+
+                    <View
+                        android:id="@+id/verticalGuideline"
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/values_large_gap"
+                        android:background="@android:color/transparent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvCurrent"
+                        style="@style/ValuesStyle"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@+id/verticalGuideline"
+                        tools:text="16850 mV" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/LabelStyle"
+                        android:layout_alignEnd="@+id/vgPackVoltage"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:text="PACK VOLTAGE" />
+
+                    <View
+                        android:id="@+id/vgPackVoltage"
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/values_large_gap"
+                        android:background="@android:color/transparent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvPackVoltage"
+                        style="@style/ValuesStyle"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@+id/vgPackVoltage"
+                        tools:text="74456 mV" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/LabelStyle"
+                        android:layout_alignEnd="@+id/vgPackPower"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:text="PACK POWER" />
+
+                    <View
+                        android:id="@+id/vgPackPower"
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/values_large_gap"
+                        android:background="@android:color/transparent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvPackPower"
+                        style="@style/ValuesStyle"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@+id/vgPackPower"
+                        tools:text="1256.3 mV" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/LabelStyle"
+                        android:layout_alignEnd="@+id/vgTemperature"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:text="TEMPERATURE" />
+
+                    <View
+                        android:id="@+id/vgTemperature"
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/values_large_gap"
+                        android:background="@android:color/transparent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvTemperature"
+                        style="@style/ValuesStyle"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@+id/vgTemperature"
+                        tools:text="24.8 C" />
+
+
+                </RelativeLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/llConnecting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#10FF5733">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icBackLoading"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_back_ios_24"
+            android:tint="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAppStatus"
+                style="@style/BatteryTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Connecting" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/dot1"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/dot_background" />
+
+                <TextView
+                    android:id="@+id/dot2"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_toEndOf="@id/dot1"
+                    android:background="@drawable/dot_background" />
+
+                <TextView
+                    android:id="@+id/dot3"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_toEndOf="@id/dot2"
+                    android:background="@drawable/dot_background" />
+
+                <TextView
+                    android:id="@+id/dot4"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_toEndOf="@id/dot3"
+                    android:background="@drawable/dot_background" />
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </RelativeLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

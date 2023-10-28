@@ -1,24 +1,24 @@
 package com.example.greenampbluetoothcontroller.ui
 
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothAdapter
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.greenampbluetoothcontroller.databinding.ActivityBaseContainerBinding
+import com.example.greenampbluetoothcontroller.util.gone
 import com.example.greenampbluetoothcontroller.util.makeToast
+import com.example.greenampbluetoothcontroller.util.visible
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlin.system.exitProcess
+
 
 @AndroidEntryPoint
 @SuppressLint("MissingPermission")
 class BaseContainer : AppCompatActivity() {
 
     private lateinit var binding: ActivityBaseContainerBinding
-
-    @Inject
-    lateinit var bluetoothAdapter: BluetoothAdapter
 
     private var backPressedTime: Long = 0
 
@@ -29,7 +29,31 @@ class BaseContainer : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        dismissOnBackPressed()
+//        dismissOnBackPressed()
+
+        setBottomNavigation()
+
+    }
+
+    private fun setBottomNavigation() {
+
+        with(binding) {
+
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(com.example.greenampbluetoothcontroller.R.id.navHOstFragment) as NavHostFragment
+
+            bottomNavigationView.setupWithNavController(navHostFragment.navController)
+
+            navHostFragment.navController.addOnDestinationChangedListener { controller, destination, arguments ->
+                if (destination.id == com.example.greenampbluetoothcontroller.R.id.batteryDetailsFragment) {
+                    bottomNavigationView.gone()
+                } else {
+                    bottomNavigationView.visible()
+                }
+            }
+
+        }
+
 
     }
 

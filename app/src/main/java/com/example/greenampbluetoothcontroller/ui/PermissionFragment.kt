@@ -18,7 +18,7 @@ import com.example.greenampbluetoothcontroller.util.AppConstants.coarseLocation
 import com.example.greenampbluetoothcontroller.util.AppConstants.fineLocation
 import com.example.greenampbluetoothcontroller.util.gone
 import com.example.greenampbluetoothcontroller.util.hasPermission
-import com.example.greenampbluetoothcontroller.util.navFromPermissionToPairNew
+import com.example.greenampbluetoothcontroller.util.navToConnectedDevice
 import com.example.greenampbluetoothcontroller.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -44,7 +44,8 @@ class PermissionFragment : Fragment(R.layout.fragment_permission) {
 
         if (!bluetoothAdapter.isEnabled || !requireContext().hasPermission(coarseLocation) || !requireContext().hasPermission(
                 fineLocation
-            )) {
+            )
+        ) {
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
                 val bluetoothEnableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -137,7 +138,7 @@ class PermissionFragment : Fragment(R.layout.fragment_permission) {
 
 
     private fun navToPairNew() {
-        navFromPermissionToPairNew()
+        navToConnectedDevice()
     }
 
 }

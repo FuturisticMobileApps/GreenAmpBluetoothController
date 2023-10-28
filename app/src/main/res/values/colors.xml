@@ -5,9 +5,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="green">#2DA815</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="app_background">#f3f3f3</color>
+    <color name="app_background">#000230</color>
     <color name="text_color">#34393a</color>
     <color name="content_color">#9b9f9f</color>
     <color name="icon_background">#faf8f6</color>
@@ -19,10 +17,35 @@
     <color name="splash_icon_color">#0F2D52</color>
 
 
-    <color name="green_background">#dbf5f0</color>
+    <color name="green_background2">#dbf5f0</color>
     <color name="gradient_background">#e9f0ff</color>
     <color name="yellow">#FFFF00</color>
     <color name="orange">#FF7A00</color>
     <color name="battery_border">#e9f0ff</color>
+    
+    // new ui colors
+    <color name="bat_title">#000230</color>
+    <color name="battery_series">#474747</color>
+    <color name="voltage_value">#5F5F5F</color>
+    <color name="black">#000000</color>
+    <color name="charging_status">#676767</color>
+    <color name="battery_red">#F32C00</color>
+    <color name="battery_green">#00F318</color>
+    <color name="battery_yellow">#FFFF00</color>
+    <color name="battery_light_green">#90EE90</color>
+
+    
+    // background
+    <color name="green_background">#BAFF9A</color>
+    <color name="yellow_background">#FFE380</color>
+    <color name="orange_background">#FFC080</color>
+    <color name="red_background">#FF8080</color>
+    <color name="white">#FFFFFF</color>
+    <color name="grey">#757575</color>
+    <color name="light_grey_text">#696969</color>
+    <color name="light_white">#EAEAEA</color>
+    <color name="transparent">#00EEEEEE</color>
+    <color name="icon_un_selected">#7B7B7B</color>
+    <color name="icon_selected">#FFFFFF</color>
 
 </resources>

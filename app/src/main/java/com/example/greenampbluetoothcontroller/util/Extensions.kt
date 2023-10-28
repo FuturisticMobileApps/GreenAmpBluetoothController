@@ -13,15 +13,16 @@ import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.greenampbluetoothcontroller.R
 
 val testData = "31D400009A990D42CDFC484507E0800C800C800C0000000000000000000000000000000000000000800C800C800C32"
 
-fun TextView?.visibleAndSetText( text : String){
+fun TextView?.visibleAndSetText(layout : LinearLayoutCompat, text : String){
     if (this == null) return
-    visible()
+    layout.visible()
     setText(text)
 }
 
@@ -90,3 +91,18 @@ fun Context.hasPermission(permission: String): Boolean {
         ) == PackageManager.PERMISSION_GRANTED
     }
 }
+
+fun CharSequence?.isValidString(): Boolean {
+
+    if (isNullOrEmpty()) return false
+
+    val textValue = toString()
+
+    return textValue.trim { it <= ' ' }.isNotEmpty() &&
+
+            !textValue.trim { it <= ' ' }.equals("null", ignoreCase = true) &&
+
+            !textValue.trim { it <= ' ' }.equals("", ignoreCase = true)
+
+}
+

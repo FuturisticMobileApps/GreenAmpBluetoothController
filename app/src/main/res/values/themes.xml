@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.GreenAmpBluetoothController" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Primary brand color. -->
@@ -10,8 +10,9 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <!-- Customize your theme here. -->
+
         <item name="fontFamily">@font/poppins</item>
         <item name="android:fontFamily">@font/poppins</item>
     </style>
@@ -124,7 +125,7 @@
     </style>
 
     <style name="AutoCompleteTextViewStyle">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:clickable">false</item>
         <item name="android:cursorVisible">false</item>
@@ -138,5 +139,81 @@
         <item name="android:progressDrawable">@drawable/circle</item>
     </style>
 
+    <style name="TextViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+
+    <style name="VoltageLabel" parent="TextViewStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/inconsolatta_bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="VoltageValue" parent="TextViewStyle">
+        <item name="android:textSize">17sp</item>
+        <item name="fontFamily">@font/inter_medium</item>
+        <item name="android:textColor">@color/voltage_value</item>
+    </style>
+
+    <style name="BatterySeries" parent="TextViewStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/battery_series</item>
+        <item name="fontFamily">@font/ibm_plex_mono</item>
+    </style>
+
+    <style name="ChargingStatus" parent="BatterySeries">
+        <item name="android:textColor">@color/charging_status</item>
+    </style>
+
+    <style name="BatteryTitle" parent="TextViewStyle">
+        <item name="fontWeight">800</item>
+        <item name="android:textSize">31sp</item>
+        <item name="android:textColor">@color/bat_title</item>
+        <item name="fontFamily">@font/inter_medium</item>
+    </style>
+
+    <style name="LabelStyle" parent="TextViewStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/b612_monot_regular</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ValuesStyle" parent="TextViewStyle">
+        <item name="android:textSize">30sp</item>
+        <item name="fontWeight">1000</item>
+        <item name="fontFamily">@font/inter_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="SOCStyle" parent="TextViewStyle">
+        <item name="android:textSize">64sp</item>
+        <item name="fontWeight">1200</item>
+        <item name="fontFamily">@font/inter_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    // new style
+    <style name="DeviceName" parent="TextViewStyle">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="fontFamily">@font/inria_sans_bold</item>
+    </style>
+
+
+    <style name="DeviceStatusText" parent="TextViewStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/light_grey_text</item>
+        <item name="fontFamily">@font/ibm_plex_sans_thai_regular</item>
+    </style>
+
+    <!--Dialog style-->
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 
 </resources>

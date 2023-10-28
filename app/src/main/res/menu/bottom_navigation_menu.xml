@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fragmentConnectedDevice"
+        android:title="Connection"
+        android:icon="@drawable/selector_connection" />
+<!--    <item-->
+<!--        android:id="@+id/batteryDetailsFragment"-->
+<!--        android:title="Metrics"-->
+<!--        android:icon="@drawable/selector_merits" />-->
+    <item
+        android:id="@+id/supportFragment"
+        android:title="Support"
+        android:icon="@drawable/selector_support" />
+</menu>
