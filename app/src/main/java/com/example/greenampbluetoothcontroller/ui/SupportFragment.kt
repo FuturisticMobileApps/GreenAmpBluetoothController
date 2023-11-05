@@ -30,7 +30,7 @@ class SupportFragment : Fragment(R.layout.fragment_support) {
 
             imgLinkedIn.setOnClickListeners { openLinkedInCompanyPage("https://www.linkedin.com/company/greenamp-technosprivate-limited/") }
 
-            imgWhatsApp.setOnClickListeners { openWhatsAppOrBrowser("+91 6383766561") }
+            imgWhatsApp.setOnClickListeners { openWhatsAppOrBrowser("+91 9629359108") }
 
 
         }

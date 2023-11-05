@@ -226,9 +226,9 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
                         val power = ((voltage.toDoubleOrNull() ?: 1.0) * (current.toDoubleOrNull()
                             ?: 1.0)) / 1000000
 
-                        tvPackPower.text = String.format("%.2f", power)
+                        tvPackPower.text = "${String.format("%.2f", power)} W"
 
-                        chargingStatus = with(current.toIntOrNull() ?: 1) {
+                        chargingStatus = with(current.toDoubleOrNull() ?: 0.0) {
                             if (this > 0)
                                 "Discharging"
                             else if (this < 0)
@@ -302,7 +302,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
         }
         if (booleanArray[1]) {
 
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     16,
@@ -314,7 +314,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
         }
         if (booleanArray[2]) {
 
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     18,
@@ -326,7 +326,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
         }
         if (booleanArray[3]) {
 
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     20,
@@ -338,7 +338,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
 
         }
         if (booleanArray[4]) {
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     22,
@@ -349,7 +349,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
             packsArray.add(data)
         }
         if (booleanArray[5]) {
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     24,
@@ -360,7 +360,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
             packsArray.add(data)
         }
         if (booleanArray[6]) {
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     26,
@@ -371,7 +371,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
             packsArray.add(data)
         }
         if (booleanArray[7]) {
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     28,
@@ -382,7 +382,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
             packsArray.add(data)
         }
         if (booleanArray[8]) {
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     30,
@@ -393,7 +393,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
             packsArray.add(data)
         }
         if (booleanArray[9]) {
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     32,
@@ -404,7 +404,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
             packsArray.add(data)
         }
         if (booleanArray[10]) {
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     34,
@@ -415,7 +415,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
             packsArray.add(data)
         }
         if (booleanArray[11]) {
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     36,
@@ -426,7 +426,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
             packsArray.add(data)
         }
         if (booleanArray[12]) {
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     38,
@@ -437,7 +437,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
             packsArray.add(data)
         }
         if (booleanArray[13]) {
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     40,
@@ -448,7 +448,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
             packsArray.add(data)
         }
         if (booleanArray[14]) {
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     42,
@@ -459,7 +459,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
             packsArray.add(data)
         }
         if (booleanArray[15]) {
-            val data = " ${
+            val data = "${
                 DataFormatter.getCellVoltage(
                     byteArray,
                     44,
