@@ -11,4 +11,6 @@ object AppConstants {
 
     const val fineLocation = "android.permission.ACCESS_FINE_LOCATION"
 
+    const val writeExternalStorage = "android.permission.WRITE_EXTERNAL_STORAGE"
+
 }

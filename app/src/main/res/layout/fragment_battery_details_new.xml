@@ -614,6 +614,16 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabExport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/primary"
+                android:src="@drawable/ic_download_24"
+                app:maxImageSize="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
@@ -691,7 +701,6 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </RelativeLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

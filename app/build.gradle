@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.greenampbluetoothcontroller"
-        minSdk 21
+        minSdk 26
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -76,6 +76,9 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:1.0.0"
     /* gson */
     implementation "com.google.code.gson:gson:2.9.0"
+    /* apache-poi */
+//    implementation group: 'org.apache.poi', name: 'poi', version: '5.1.0'
+//    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.1.0'
 
 }
 

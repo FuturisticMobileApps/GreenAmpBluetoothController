@@ -18,6 +18,11 @@ import com.example.greenampbluetoothcontroller.ble_library.exceptions.ScanTimeou
 import com.example.greenampbluetoothcontroller.dataStore.BLEDeviceLocal
 import com.example.greenampbluetoothcontroller.dataStore.DevicePreferencesManager
 import com.example.greenampbluetoothcontroller.databinding.FragmentBatteryDetailsNewBinding
+import com.example.greenampbluetoothcontroller.observe_data.filePath
+import com.example.greenampbluetoothcontroller.observe_data.generateAndSaveCsv
+import com.example.greenampbluetoothcontroller.observe_data.getCurrentTimeFormatted
+import com.example.greenampbluetoothcontroller.observe_data.hasStorageAccess
+import com.example.greenampbluetoothcontroller.observe_data.openFileInternal
 import com.example.greenampbluetoothcontroller.util.batteryDetailsToConnectedDevice
 import com.example.greenampbluetoothcontroller.util.gone
 import com.example.greenampbluetoothcontroller.util.makeToast
@@ -29,8 +34,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -52,6 +59,13 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
     private var isObserving: Boolean = false
     private val rxServiceUUID = "0000fff4-0000-1000-8000-00805f9b34fb"
 
+    private val dataList = mutableListOf<List<String>>()
+    private var dataPoint = 0
+    private var rawCurrent = 0.0
+    private var time = 0.0
+    private val rawCurrentList = mutableListOf<Double>()
+    private var localFileName = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupBluetooth()
@@ -60,6 +74,7 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentBatteryDetailsNewBinding.bind(view)
+
         requestPermissions()
 
         binding.icBack.setOnClickListeners {
@@ -69,6 +84,31 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
             batteryDetailsToConnectedDevice()
         }
 
+        binding.fabExport.setOnClickListeners {
+            hasStorageAccess {
+                saveCSVFile()
+            }
+        }
+
+    }
+
+    private fun saveCSVFile() {
+        val fileName =
+            "${args.deviceName}:${getCurrentTimeFormatted()}.csv".replace("/", "-")
+                .replace(":", "-")
+
+        lifecycleScope.launch {
+            generateAndSaveCsv(fileName, dataList)
+            localFileName = fileName
+            coroutineContext.job.invokeOnCompletion {
+                openFile()
+            }
+        }
+    }
+
+    private fun openFile() {
+        val file = File(filePath, localFileName)
+        openFileInternal(requireContext(), file)
     }
 
 
@@ -168,7 +208,6 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
                     interval = 5000L,
                 ) { byteArray ->
 
-
                     with(binding) {
 
                         val voltage = DataFormatter.getVoltage(byteArray)
@@ -222,7 +261,6 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
 
                         enableAllCells(byteArray, cells.second)
 
-
                         val power = ((voltage.toDoubleOrNull() ?: 1.0) * (current.toDoubleOrNull()
                             ?: 1.0)) / 1000000
 
@@ -238,7 +276,48 @@ class BatteryDetailsFragment : Fragment(R.layout.fragment_battery_details_new) {
 
                         }
 
+                        // add into dataList
+                        if (dataList.isEmpty()) {
+                            val firstList = listOf(
+                                "1",
+                                "0",
+                                current,
+                                voltage,
+                                "$power",
+                                current,
+                                temperature
+                            )
+                            dataList.add(firstList)
+
+                            rawCurrent = current.toDoubleOrNull() ?: 0.0
+                            dataPoint = 1
+                            time = 0.0
+                            rawCurrentList.add(rawCurrent)
+
+                        } else {
+
+                            dataPoint++
+                            time += 0.5
+                            val filteredCurrent = rawCurrentList.sum() / dataPoint
+
+                            val otherDataList = listOf(
+                                "${dataPoint + 1}",
+                                "$time",
+                                current,
+                                voltage,
+                                "$power",
+                                "$filteredCurrent",
+                                temperature
+                            )
+
+                            dataList.add(otherDataList)
+
+                        }
+
+
                     }
+
+
                 }
             }
 
